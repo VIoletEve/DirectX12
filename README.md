@@ -5,7 +5,7 @@
 首先创建一个Ssao辅助类
 这个辅助类要实现的功能有:
 ### 创建两个AO图资源(1个用于横向模糊，另一个用于纵向模糊),法线图资源，深度图资源以及随机向量图资源(BuildResource)
-（```C++
+```
 void Ssao::BuildResources()
 {
 	// 释放旧资源，如果存在
@@ -64,7 +64,7 @@ void Ssao::BuildResources()
         &optClear,
         IID_PPV_ARGS(&mAmbientMap1)));
 }
-```)
+```
 
 ### 创建个资源的srv,rtv,并通过描述符句柄放入对应的堆中(BuildDescriptors,RebuildDescriptor)
 ```
@@ -454,5 +454,33 @@ void Ssao::BlurAmbientMap(ID3D12GraphicsCommandList* cmdList, bool horzBlur)
         D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_GENERIC_READ));
 }
 ```
+在FrameResource.h中加入Ssao常量
+```
+struct SsaoConstants
+{
+    DirectX::XMFLOAT4X4 Proj;
+    DirectX::XMFLOAT4X4 InvProj;
+    DirectX::XMFLOAT4X4 ProjTex;
+    DirectX::XMFLOAT4   OffsetVectors[14];
+
+    // For SsaoBlur.hlsl
+    DirectX::XMFLOAT4 BlurWeights[3];
+
+    DirectX::XMFLOAT2 InvRenderTargetSize = { 0.0f, 0.0f };
+
+    // Coordinates given in view space.
+    float OcclusionRadius  = 0.5f;
+    float OcclusionFadeStart = 0.2f;
+    float OcclusionFadeEnd = 2.0f;
+    float SurfaceEpsilon = 0.05f;
+};
+```
+加入帧资源
+<std::unique_ptr<UploadBuffer<SsaoConstants>> SsaoCB = nullptr;>
+在帧资源的构造函数中
+<SsaoCB = std::make_unique<UploadBuffer<SsaoConstants>>(device, 1, true);>
+	
+
+ 
 
 
