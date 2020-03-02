@@ -514,12 +514,17 @@ CD3DX12_CPU_DESCRIPTOR_HANDLE SsaoApp::GetRtv(int index)const
 }
 ```
 ### 毫无疑问的，我们得先创建mSsao
-```std::unique_ptr<Ssao> mSsao;```
-然后初始化它
-```mSsao = std::make_unique<Ssao>(
+```
+std::unique_ptr<Ssao> mSsao;
+```
+## 然后初始化它
+
+```
+mSsao = std::make_unique<Ssao>(
         md3dDevice.Get(),
         mCommandList.Get(),
-        mClientWidth, mClientHeight);```
+        mClientWidth, mClientHeight);
+```
 在OnResize中调用它的OnResize
 ```
 
