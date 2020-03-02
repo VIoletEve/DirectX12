@@ -1359,8 +1359,8 @@ void SsaoApp::DrawNormalsAndDepth()
 }
 ```
 ***
-```
-### 最后在draw里调用DrawNormalsAndDepth和ComputeSsao，在调用ComputeSsao之前，绑定ssao根签名，调用完后，记得改回原来的根签名
+
+# 最后在draw里调用DrawNormalsAndDepth和ComputeSsao，在调用ComputeSsao之前，绑定ssao根签名，调用完后，记得改回原来的根签名
 	
 	
  
